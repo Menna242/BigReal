@@ -9,7 +9,7 @@ int main(){
     getline(cin,s);
     BigReal o1;
     BigReal oo(s);
-      oo.printf();
+    oo.printf();
 
     string ss;
     getline(cin,ss);
@@ -22,16 +22,4 @@ int main(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-  
 }
