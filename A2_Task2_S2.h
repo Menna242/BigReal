@@ -85,12 +85,13 @@ public:
 
     }
 //----------------------------------------------------------------------------------
-    bool Size1(BigReal number2){
-        BigReal result,result2;
+    BigReal Size1(BigReal number2){
+        BigReal result;
         if(intSize!=number2.intSize){
             if(number2.intSize<intSize){
                 for (int i = 0; i < intSize-number2.intSize; ++i) {
                     number2.integer="0"+number2.integer;
+                   result.integer =number2.integer;
                 }
 
             }
@@ -100,13 +101,13 @@ public:
                 }
             }
 
-            cout<<true;
         }
 
         if(fractionSize!=number2.fractionSize){
             if(fractionSize>number2.fractionSize){
                 for (int i = 0; i < fractionSize-number2.fractionSize; ++i) {
                     number2.fraction=number2.fraction+"0";
+                    result.fraction=number2.fraction;
                 }
             }
             else if (fractionSize<number2.fractionSize){
@@ -114,23 +115,28 @@ public:
                    fraction =fraction+"0";
                 }
             }
-         cout<<false;
         }
 
 
+        return result;
     }
 
     bool operator==(BigReal oo2){
+        Size1(oo2);
         if(intSize==oo2.intSize&&fractionSize==oo2.fractionSize){
             if(integer==oo2.integer){
                 if(fraction==oo2.fraction){
+                    cout<<"the integer in ob1==the integer ob2 &&the fraction in ob1==the fraction ob2";
                     return 1;
                 }
                 else{
+                    cout<<"the integer in ob1==the integer ob2 &&the fraction in ob1!=the fraction ob2";
                     return 0;
                 }
             }
             else{
+                cout<<"the integer in ob1!=the integer ob2 ";
+
                 return 0;
             }
         }
@@ -153,18 +159,10 @@ public:
 //
 //
 
-
-
-
-
-
-
     void printf(){
         cout<<BigNumber<<"-->";
         cout<<integer<<" "<<fraction<<" ";
         cout<<"\n";
-
-
     }
 
 
