@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "A2_Task2.h"
-//#include "Task2.cpp"
 
 int main(){
     cout<<"Enter the BigNumber:";
@@ -11,12 +10,29 @@ int main(){
     BigReal oo(s);
     oo.printf();
 
+    cout<<"Enter the BigNumber:";
     string ss;
     getline(cin,ss);
     BigReal oo2(ss);
     oo2.printf();
 
-   oo.operator==(oo2);
+    char enter;
+    cout<<"Compare the integers: ";
+    cin>>enter;
+    if(enter=='c'){
+       if(oo.operator==(oo2)==1) {
+          cout<<"the integer in ob1==the integer ob2 &&the fraction in ob1==the fraction ob2";
+       }
+       else if(oo.operator<(oo2)==1){
+               cout<<"The big number 1 < the big number 2";
+       }
+       else if (oo.operator<(oo2)==2){
+               cout<<"The big number 1 > the big number 2";
+       }
+    }
+
+
+
 
 
 
