@@ -4,31 +4,26 @@ private:
     long long intSize,fractionSize ;
     char sign;
     bool firstZero;
+    bool positive;
 public:
 
     BigReal();
     BigReal(string real);
-
+    friend void print_num(BigReal p);
     bool operator==(BigReal oo2);
 
 
     int operator<(BigReal oo2 );
 
-    void printf();
+
     void add(BigReal& other);
 
 
-};
-class  Subtraction {
-private:
-    string integerPart;
-    string fractionPart;
-    bool positive;
-
-public:
-    Subtraction(const string& number) ;
-    string subtract(const  Subtraction& other)const;
+    void Subtraction(const string& number) ;
+    string subtract(const BigReal& other)const;
     string add(const string& num1, const string& num2)const ;
     string subtractNum(const string& num1, const string& num2) const;
     string addOne(const string& num) const ;
+
+    void printf();
 };
