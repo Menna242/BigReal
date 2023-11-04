@@ -14,14 +14,9 @@ public:
     bool operator<(BigReal oo2 );
     bool operator>(BigReal oo2 );
 
-    void add(BigReal& other);
-
+    void addition(BigReal& other);
 
     friend void print_num(BigReal p);
-
-
-
-
 
     void Subtraction(const string& number) ;
     string subtract(const BigReal& other)const;
@@ -31,8 +26,7 @@ public:
 
     void printf();
 
-
-
 };
+
 
 
