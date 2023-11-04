@@ -1,6 +1,6 @@
 # include <bits/stdc++.h>
 using namespace std;
-#include "The_BigReal.h"
+#include "oopA2T2.h"
 
 int main()
 {
@@ -19,8 +19,8 @@ int main()
 
     char enter;
     cout<<"if you want to compare the integers enter c:\n"
-        <<"if you want to compare the integers enter d:\n"
-        <<"if you want to compare the integers enter s:\n";
+        <<"if you want to add the integers enter d:\n"
+        <<"if you want to subtract the integers enter s:\n";
     cin>>enter;
     if(enter=='c'){
         if(oo.operator==(oo2)==1) {
@@ -42,6 +42,6 @@ int main()
 
     }
 
-    
+
 
 }
