@@ -306,11 +306,6 @@ void BigReal::add(BigReal& other){
 */
 string  BigReal:: subtract(const  BigReal& other) const{
 
-    /*if (other[0] == '-') {
-        positive = false;
-    }else{
-        positive = true;
-    }*/
     int positive=0;
     if(sign=='+')
         positive = 0;
@@ -363,7 +358,7 @@ string  BigReal:: subtract(const  BigReal& other) const{
         result += '.' + fractionResult;
 
     // Add the sign if necessary
-    if (positive=0)
+    if (positive == 1)
         result = '-' + result;
 
     return result;
