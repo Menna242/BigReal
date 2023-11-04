@@ -1,7 +1,6 @@
-
 #include <bits/stdc++.h>
 using namespace std;
-#include "The_BigReal.h"
+#include "oopA2T2.h"
 BigReal::BigReal() {
     integer='0';
     fraction='0';
@@ -286,7 +285,7 @@ void BigReal::add(BigReal& other){
 
 }
 //-----------------------------------------------------------------------------------
-void BigReal::Subtraction(const string& number) {
+/*void BigReal::Subtraction(const string& number) {
     // Extract sign, integer part, and fraction part from the input string
     if (number[0] == '-') {
         positive = false;
@@ -304,8 +303,20 @@ void BigReal::Subtraction(const string& number) {
         fraction = "";
     }
 }
+*/
+string  BigReal:: subtract(const  BigReal& other) const{
 
-string  BigReal:: subtract(const  BigReal& other) const {
+    /*if (other[0] == '-') {
+        positive = false;
+    }else{
+        positive = true;
+    }*/
+    int positive=0;
+    if(sign=='+')
+        positive = 0;
+    else
+        positive = 1;
+
     // Pad the fraction parts with zeros to ensure equal length
     string paddedFrac1 = fraction;
     string paddedFrac2 = other.fraction;
@@ -352,7 +363,7 @@ string  BigReal:: subtract(const  BigReal& other) const {
         result += '.' + fractionResult;
 
     // Add the sign if necessary
-    if (!positive)
+    if (positive=0)
         result = '-' + result;
 
     return result;
@@ -431,4 +442,3 @@ void BigReal::printf() {
     cout << integer << " " << fraction << " ";
     cout << "\n";
 }
-
