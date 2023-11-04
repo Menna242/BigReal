@@ -19,4 +19,16 @@ public:
 
 
 };
+class  Subtraction {
+private:
+    string integerPart;
+    string fractionPart;
+    bool positive;
 
+public:
+    Subtraction(const string& number) ;
+    string subtract(const  Subtraction& other)const;
+    string add(const string& num1, const string& num2)const ;
+    string subtractNum(const string& num1, const string& num2) const;
+    string addOne(const string& num) const ;
+};
