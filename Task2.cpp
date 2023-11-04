@@ -1,18 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
-#include "oopA2T2.h"
+#include "A2_Task2_S2.h"
+
 BigReal::BigReal() {
     integer='0';
     fraction='0';
     sign='+';
     intSize=0;
     fractionSize=0;
+    firstZero = false;
 }
 BigReal::BigReal(string real) {
+    firstZero = false;
     if(real[0]=='+'||real[0]=='-') {
         for (int i = 1; i < real.size(); ++i) {
             if(!isdigit(real[i])&&real[i]!='.'){
                 real[i]='0';
+                firstZero = true;
             }
             else{
                 break;
@@ -23,6 +27,7 @@ BigReal::BigReal(string real) {
         if(real[0]=='+'){  //+11
             sign='+';
             real[0]='0';
+            firstZero = true;
             integer=real;
             fraction="0";
         }
@@ -30,6 +35,7 @@ BigReal::BigReal(string real) {
         else if(real[0]=='-'){  //-11.11
             sign='-';
             real[0]='0';
+            firstZero = true;
             integer=real;
             fraction="0";
         }
@@ -44,6 +50,7 @@ BigReal::BigReal(string real) {
         if(real[0]=='+'){  //+11.11
             sign='+';
             real[0]='0';
+            firstZero = true;
             integer=real.substr(0,real.find('.'));
             fraction=real.substr(integer.size()+1,real.size()-1);
         }
@@ -51,10 +58,9 @@ BigReal::BigReal(string real) {
         else if(real[0]=='-'){  //-11.11
             sign='-';
             real[0]='0';
+            firstZero = true;
             integer=real.substr(0,real.find('.'));
             fraction=real.substr(integer.size()+1,real.size()-1);
-
-
         }
         else{      //11.11
             sign='+';
@@ -67,8 +73,6 @@ BigReal::BigReal(string real) {
                 integer=real.substr(0,real.find('.'));
                 fraction=real.substr(integer.size()+1,real.size()-1);
             }
-
-
         }
     }
 
@@ -186,7 +190,7 @@ bool BigReal::operator>(BigReal oo2) {
     }
 }
 //---------------------------------------------------------------------
-void BigReal::add(BigReal& other){
+void BigReal::addition(BigReal &other) {
     string result = "";
     char result_sign;
     int carry = 0;
@@ -284,6 +288,7 @@ void BigReal::add(BigReal& other){
     }
 
 }
+
 //-----------------------------------------------------------------------------------
 /*void BigReal::Subtraction(const string& number) {
     // Extract sign, integer part, and fraction part from the input string
@@ -306,6 +311,11 @@ void BigReal::add(BigReal& other){
 */
 string  BigReal:: subtract(const  BigReal& other) const{
 
+    /*if (other[0] == '-') {
+        positive = false;
+    }else{
+        positive = true;
+    }*/
     int positive=0;
     if(sign=='+')
         positive = 0;
@@ -358,7 +368,7 @@ string  BigReal:: subtract(const  BigReal& other) const{
         result += '.' + fractionResult;
 
     // Add the sign if necessary
-    if (positive == 1)
+    if (positive=0)
         result = '-' + result;
 
     return result;
@@ -437,3 +447,4 @@ void BigReal::printf() {
     cout << integer << " " << fraction << " ";
     cout << "\n";
 }
+
