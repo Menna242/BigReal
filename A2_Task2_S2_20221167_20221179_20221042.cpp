@@ -1,14 +1,9 @@
-#include <bits/stdc++.h>
+# include <bits/stdc++.h>
 using namespace std;
-//#include "oopA2T2.h"
-#include "oopA2T2.cpp"
+#include "The_BigReal.h"
 
-void print_num(BigReal x){
-    cout<<x.BigNumber<<"-->";
-    cout<<x.integer<<" "<<x.fraction<<" ";
-    cout<<"\n";
-}
-int main(){
+int main()
+{
     cout<<"Enter the BigNumber:";
     string s;
     getline(cin,s);
@@ -23,7 +18,9 @@ int main(){
     oo2.printf();
 
     char enter;
-    cout<<"Compare the integers: ";
+    cout<<"if you want to compare the integers enter c:\n"
+        <<"if you want to compare the integers enter d:\n"
+        <<"if you want to compare the integers enter s:\n";
     cin>>enter;
     if(enter=='c'){
         if(oo.operator==(oo2)==1) {
@@ -32,35 +29,19 @@ int main(){
         else if(oo.operator<(oo2)==1){
             cout<<"The big number 1 < the big number 2";
         }
-        else if (oo.operator<(oo2)==2){
+        else if (oo.operator>(oo2)==1){
             cout<<"The big number 1 > the big number 2";
         }
     }
+    else if (enter=='d'){
+        oo.add(oo2);
+    }
+    else if(enter=='s'){
+        string difference = oo.subtract(oo2);
+        cout << "Difference: " << difference << endl;
 
-    string s1, s2;
-    cout << "Enter the first number:";
-    getline(cin,s1);
-    cout << endl;
-    cout << "Enter the second number:";
-    getline(cin , s2);
-    BigReal a(s1);
-    BigReal b(s2);
-    a.add(b);
-    string number1, number2;
-    cout << "Enter the first number: ";
-    cin >> number1;
-    cout << "Enter the second number: ";
-    cin >> number2;
+    }
 
-    BigReal t1(number1);
-    BigReal t2(number2);
-
-    string difference = t1.subtract(t2);
-    cout << "Difference: " << difference << endl;
-
-    BigReal p;
-    print_num(p);
-
-    return 0;
+    
 
 }
