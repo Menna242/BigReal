@@ -1,4 +1,4 @@
-class BigReal{
+class BigReal {
 private:
     string BigNumber,integer,fraction;
     long long intSize,fractionSize ;
@@ -9,14 +9,18 @@ public:
 
     BigReal();
     BigReal(string real);
-    friend void print_num(BigReal p);
+
     bool operator==(BigReal oo2);
-
-
-    int operator<(BigReal oo2 );
-
+    bool operator<(BigReal oo2 );
+    bool operator>(BigReal oo2 );
 
     void add(BigReal& other);
+
+
+    friend void print_num(BigReal p);
+
+
+
 
 
     void Subtraction(const string& number) ;
@@ -26,4 +30,9 @@ public:
     string addOne(const string& num) const ;
 
     void printf();
+
+
+
 };
+
+
