@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-#include "A2_Task2_S2.h"
+#include "oopA2T2.h"
+
 
 BigReal::BigReal() {
     integer='0';
@@ -10,6 +11,7 @@ BigReal::BigReal() {
     fractionSize=0;
     firstZero = false;
 }
+
 BigReal::BigReal(string real) {
     firstZero = false;
     if(real[0]=='+'||real[0]=='-') {
@@ -261,40 +263,30 @@ void BigReal::add(BigReal& other){
 
 }
 
-#include "oopA2T2.h"
-#include<iostream>
-#include<string>
-using namespace std;
-class  Subtraction {
-private:
-    string integerPart;
-    string fractionPart;
-    bool positive;
 
-public:
-    Subtraction(const string& number) {
+        void BigReal::Subtraction(const string& number) {
         // Extract sign, integer part, and fraction part from the input string
         if (number[0] == '-') {
             positive = false;
-            integerPart = number.substr(1);      //Start  from the index 1 to the end of the string
+            integer = number.substr(1);      //Start  from the index 1 to the end of the string
         } else {
             positive = true;
-            integerPart = number;
+            integer = number;
         }
 
-        size_t decimalPos = integerPart.find('.');
+        size_t decimalPos = integer.find('.');
         if (decimalPos != string::npos) {     //decimalPos is not equal to the greatest value of size_t
-            fractionPart = integerPart.substr(decimalPos + 1);
-            integerPart = integerPart.substr(0, decimalPos);
+            fraction = integer.substr(decimalPos + 1);
+            integer = integer.substr(0, decimalPos);
         } else {
-            fractionPart = "";
+            fraction = "";
         }
     }
 
-    string subtract(const  Subtraction& other) const {
+    string  BigReal:: subtract(const  BigReal& other) const {
         // Pad the fraction parts with zeros to ensure equal length
-        string paddedFrac1 = fractionPart;
-        string paddedFrac2 = other.fractionPart;
+        string paddedFrac1 = fraction;
+        string paddedFrac2 = other.fraction;
         while (paddedFrac1.length() < paddedFrac2.length())
             paddedFrac1 += '0';
         while (paddedFrac2.length() < paddedFrac1.length())
@@ -321,7 +313,7 @@ public:
             fractionResult = fractionResult.substr( 1);
 
         // Subtract the integer parts
-        string integerResult = subtractNum(integerPart, other.integerPart);
+        string integerResult = subtractNum(integer, other.integer);
 
         // Remove leading zeros from the integer result
         size_t nonZeroPos2 = integerResult.find_first_not_of('0');
@@ -344,8 +336,8 @@ public:
         return result;
     }
 
-private:
-    string add(const string& num1, const string& num2) const {
+
+    string  BigReal:: add(const string& num1, const string& num2) const {
         string result;
         int carry = 0;
         int i = num1.length() - 1;
@@ -365,7 +357,7 @@ private:
         return result;
     }
 
-    string subtractNum(const string& num1, const string& num2) const {
+    string BigReal::subtractNum(const string& num1, const string& num2) const {
         string result;
         int borrow = 0;
         int i = num1.length() - 1;
@@ -391,7 +383,7 @@ private:
         return result;
     }
 
-    string addOne(const string& num) const {
+    string BigReal::addOne(const string& num) const {
         string result = num;                   // 20 -13 --->   20 + 86(9's complement)= 106 ---> add 1 and remove the last one
         int i = num.length() - 1;              //=07
         int carry = 1;
@@ -409,7 +401,7 @@ private:
 
         return result;
     }
-};
+
 
 
 
@@ -418,3 +410,4 @@ void BigReal::printf() {
     cout<<integer<<" "<<fraction<<" ";
     cout<<"\n";
 }
+
