@@ -9,9 +9,11 @@ BigReal::BigReal() {
     intSize=0;
     fractionSize=0;
     firstZero = false;
+    addsub = true;
 }
 BigReal::BigReal(string real) {
     firstZero = false;
+    addsub = true;
     if(real[0]=='+'||real[0]=='-') {
         for (int i = 1; i < real.size(); ++i) {
             if(!isdigit(real[i])&&real[i]!='.'){
@@ -202,6 +204,7 @@ void BigReal::addition(BigReal &other) {
     }
     else{
         // Subtraction
+        addsub = false;
     }
 
     // Firstly we need to make the number of digits equal in both a and b
@@ -221,73 +224,77 @@ void BigReal::addition(BigReal &other) {
         }
     }
 
-    // Adding the fraction , integer parts
-    // Adding the fraction part
-    int fractionSize_a = fraction.size();
-    int fractionSize_b = other.fraction.size();
-    int i = fractionSize_a - 1;
-    int j = fractionSize_b - 1;
+    if(addsub){
+        // Adding the fraction , integer parts
+        // Adding the fraction part
+        int fractionSize_a = fraction.size();
+        int fractionSize_b = other.fraction.size();
+        int i = fractionSize_a - 1;
+        int j = fractionSize_b - 1;
 
-    int sum;
-    while (i >= 0 || j >= 0) {
-        sum = carry;
-        if (i >= 0)
-            sum += (fraction[i] - '0');
-        if (j >= 0)
-            sum += (other.fraction[j] - '0');
-        carry = sum / 10;
-        sum %= 10;
-        result = to_string(sum) + result;
-        i--; j--;
-    }
-    int decimalPosition;
-    decimalPosition = result.size();
-
-    // Adding the integer part
-    int integerSize_a = integer.size();
-    int integerSize_b = other.integer.size();
-    i = integerSize_a - 1;
-    j = integerSize_b - 1;
-    while (i >= 0 || j >= 0) {
-        sum = carry;
-        if (i >= 0)
-            sum += (integer[i] - '0');
-        if (j >= 0)
-            sum += (other.integer[j] - '0');
-        carry = sum / 10;
-        sum %= 10; // It gives the current digit of result
-        result = to_string(sum) + result;
-        i--; j--;
-    }
-
-    if (carry > 0) {
-        result = to_string(carry) + result;
-    }
-
-
-    // Printing result of adding
-    cout << "Result: ";
-    cout << result_sign;
-    if(firstZero){
-        for(int i = 1; i < (result.size()-decimalPosition); i++){
-            cout << result[i];
+        int sum;
+        while (i >= 0 || j >= 0) {
+            sum = carry;
+            if (i >= 0)
+                sum += (fraction[i] - '0');
+            if (j >= 0)
+                sum += (other.fraction[j] - '0');
+            carry = sum / 10;
+            sum %= 10;
+            result = to_string(sum) + result;
+            i--; j--;
         }
-        cout << ".";
-        for(int i = (result.size() - decimalPosition); i < result.size() ; i++){
-            cout << result[i];
-        }
-    }
-    else{
-        for(int i = 0; i < (result.size()-decimalPosition); i++){
-            cout << result[i];
-        }
-        cout << ".";
-        for(int i = (result.size() - decimalPosition); i < result.size() ; i++){
-            cout << result[i];
-        }
-    }
+        int decimalPosition;
+        decimalPosition = result.size();
 
+        // Adding the integer part
+        int integerSize_a = integer.size();
+        int integerSize_b = other.integer.size();
+        i = integerSize_a - 1;
+        j = integerSize_b - 1;
+        while (i >= 0 || j >= 0) {
+            sum = carry;
+            if (i >= 0)
+                sum += (integer[i] - '0');
+            if (j >= 0)
+                sum += (other.integer[j] - '0');
+            carry = sum / 10;
+            sum %= 10; // It gives the current digit of result
+            result = to_string(sum) + result;
+            i--; j--;
+        }
+
+        if (carry > 0) {
+            result = to_string(carry) + result;
+        }
+
+
+        // Printing result of adding
+        cout << "Result: ";
+        cout << result_sign;
+        if(firstZero){
+            for(int i = 1; i < (result.size()-decimalPosition); i++){
+                cout << result[i];
+            }
+            cout << ".";
+            for(int i = (result.size() - decimalPosition); i < result.size() ; i++){
+                cout << result[i];
+            }
+        }
+        else{
+            for(int i = 0; i < (result.size()-decimalPosition); i++){
+                cout << result[i];
+            }
+            cout << ".";
+            for(int i = (result.size() - decimalPosition); i < result.size() ; i++){
+                cout << result[i];
+            }
+        }
+
+    }
 }
+
+
 
 //-----------------------------------------------------------------------------------
 /*void BigReal::Subtraction(const string& number) {
@@ -447,4 +454,5 @@ void BigReal::printf() {
     cout << integer << " " << fraction << " ";
     cout << "\n";
 }
+
 
