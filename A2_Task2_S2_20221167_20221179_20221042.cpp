@@ -1,9 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
-#include "A2_Task2_S2.h"
+//#include "oopA2T2.h"
+#include "oopA2T2.cpp"
 
+void print_num(BigReal x){
+    cout<<x.BigNumber<<"-->";
+    cout<<x.integer<<" "<<x.fraction<<" ";
+    cout<<"\n";
+}
 int main(){
-    /*cout<<"Enter the BigNumber:";
+    cout<<"Enter the BigNumber:";
     string s;
     getline(cin,s);
     BigReal o1;
@@ -30,7 +36,7 @@ int main(){
             cout<<"The big number 1 > the big number 2";
         }
     }
-*/
+
     string s1, s2;
     cout << "Enter the first number:";
     getline(cin,s1);
@@ -46,12 +52,15 @@ int main(){
     cout << "Enter the second number: ";
     cin >> number2;
 
-    Subtraction t1(number1);
-    Subtraction t2(number2);
+    BigReal t1(number1);
+    BigReal t2(number2);
 
     string difference = t1.subtract(t2);
     cout << "Difference: " << difference << endl;
-    
+
+    BigReal p;
+    print_num(p);
+
     return 0;
 
 }
