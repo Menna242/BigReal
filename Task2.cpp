@@ -261,6 +261,157 @@ void BigReal::add(BigReal& other){
 
 }
 
+#include "oopA2T2.h"
+#include<iostream>
+#include<string>
+using namespace std;
+class  Subtraction {
+private:
+    string integerPart;
+    string fractionPart;
+    bool positive;
+
+public:
+    Subtraction(const string& number) {
+        // Extract sign, integer part, and fraction part from the input string
+        if (number[0] == '-') {
+            positive = false;
+            integerPart = number.substr(1);      //Start  from the index 1 to the end of the string
+        } else {
+            positive = true;
+            integerPart = number;
+        }
+
+        size_t decimalPos = integerPart.find('.');
+        if (decimalPos != string::npos) {     //decimalPos is not equal to the greatest value of size_t
+            fractionPart = integerPart.substr(decimalPos + 1);
+            integerPart = integerPart.substr(0, decimalPos);
+        } else {
+            fractionPart = "";
+        }
+    }
+
+    string subtract(const  Subtraction& other) const {
+        // Pad the fraction parts with zeros to ensure equal length
+        string paddedFrac1 = fractionPart;
+        string paddedFrac2 = other.fractionPart;
+        while (paddedFrac1.length() < paddedFrac2.length())
+            paddedFrac1 += '0';
+        while (paddedFrac2.length() < paddedFrac1.length())
+            paddedFrac2 += '0';
+
+        // Compute the 9's complement of the fraction part of the second number
+        string complementedFrac2;
+        for (char c : paddedFrac2)
+            complementedFrac2 += '9' - (c - '0');
+
+        // Add 1 to the 9's complement of the fraction part to get the final complement
+        string finalComplement = addOne(complementedFrac2);
+
+        // Subtract the fraction parts using the complement method
+        string fractionResult = add(paddedFrac1, finalComplement);
+        size_t nonZeroPos = fractionResult.find_first_not_of('0');
+        if (nonZeroPos != string::npos)
+            fractionResult = fractionResult.substr(nonZeroPos);
+        else
+            fractionResult = "";
+
+
+        if (!fractionResult.empty()&&fractionResult[0]=='1')
+            fractionResult = fractionResult.substr( 1);
+
+        // Subtract the integer parts
+        string integerResult = subtractNum(integerPart, other.integerPart);
+
+        // Remove leading zeros from the integer result
+        size_t nonZeroPos2 = integerResult.find_first_not_of('0');
+        if (nonZeroPos2 != string::npos)
+            integerResult = integerResult.substr(nonZeroPos2);
+        else
+            integerResult = "0";
+
+
+
+        // Combine the integer and fraction parts to get the final result
+        string result = integerResult;
+        if (!fractionResult.empty())
+            result += '.' + fractionResult;
+
+        // Add the sign if necessary
+        if (!positive)
+            result = '-' + result;
+
+        return result;
+    }
+
+private:
+    string add(const string& num1, const string& num2) const {
+        string result;
+        int carry = 0;
+        int i = num1.length() - 1;
+        int j = num2.length() - 1;
+
+        while (i >= 0 || j >= 0 || carry > 0) {
+            int digit1 = (i >= 0) ? (num1[i] - '0') : 0;
+            int digit2 = (j >= 0) ? (num2[j] - '0') : 0;
+            int sum = digit1 + digit2 + carry;
+            carry = sum / 10;    //if was no carry it will be a decimal num so carry =0
+            sum %= 10;
+            result = to_string(sum) + result;
+            i--;
+            j--;
+        }
+
+        return result;
+    }
+
+    string subtractNum(const string& num1, const string& num2) const {
+        string result;
+        int borrow = 0;
+        int i = num1.length() - 1;
+        int j = num2.length() - 1;
+
+        while (i >= 0 || j >= 0) {
+            int digit1 = (i >= 0) ? (num1[i] - '0') : 0;
+            int digit2 = (j >= 0) ? (num2[j] - '0') : 0;
+            int diff = digit1 - digit2 - borrow;
+
+            if (diff < 0) {
+                diff += 10;
+                borrow = 1;
+            } else {
+                borrow = 0;
+            }
+
+            result = to_string(diff) + result;
+            i--;
+            j--;
+        }
+
+        return result;
+    }
+
+    string addOne(const string& num) const {
+        string result = num;                   // 20 -13 --->   20 + 86(9's complement)= 106 ---> add 1 and remove the last one
+        int i = num.length() - 1;              //=07
+        int carry = 1;
+        while (i >= 0 && carry > 0) {
+            int digit = num[i] - '0';
+            int sum = digit + carry;
+            carry = sum / 10;
+            sum %= 10;
+            result[i] = sum + '0';
+            i--;
+        }
+
+        if (carry > 0)             //if still was a carry
+            result = '1' + result;
+
+        return result;
+    }
+};
+
+
 
 void BigReal::printf() {
     cout<<BigNumber<<"-->";
