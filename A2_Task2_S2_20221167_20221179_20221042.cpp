@@ -40,7 +40,18 @@ int main(){
     BigReal a(s1);
     BigReal b(s2);
     a.add(b);
+    string number1, number2;
+    cout << "Enter the first number: ";
+    cin >> number1;
+    cout << "Enter the second number: ";
+    cin >> number2;
+
+    Subtraction t1(number1);
+    Subtraction t2(number2);
+
+    string difference = t1.subtract(t2);
+    cout << "Difference: " << difference << endl;
+    
+    return 0;
 
 }
-
-
