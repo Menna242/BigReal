@@ -463,6 +463,59 @@ string BigReal::subtract(BigReal &other)
             cout<< result;
 
         }
+        else if(integer==other.integer&&fraction==other.fraction){
+            resultInt='0';
+            resultFrac='0';
+            result = resultInt + '.' + resultFrac;
+            cout<< result;
+        }
+        else if(integer==other.integer&&fraction!=other.fraction){
+            if(fraction>other.fraction){
+                resultInt='0';
+                for (int i = 0; i < fraction1.length(); ++i) {
+                    int d1 = fraction1[i] - '0';
+                    int d2 = fraction2[i] - '0';
+                    int diff = d1 - d2 - carry; // <----
+                    if (diff < 0) {
+                        diff += 10;
+                        carry = 1;
+                    } else {
+                        carry = 0;
+                    }
+                    resultFrac += to_string(diff);
+                }
+                reverse(resultFrac.begin(), resultFrac.end());
+                if (resultFrac.empty())
+                    result = resultInt;
+                else
+                    result = resultInt + '.' + resultFrac;
+                cout << sign;
+                cout<< result;
+
+            }
+            else if(fraction<other.fraction){
+                resultInt='0';
+                for (int i = 0; i < fraction1.length(); ++i) {
+                    int d1 = fraction1[i] - '0';
+                    int d2 = fraction2[i] - '0';
+                    int diff = d2 - d1 - carry; // <----
+                    if (diff < 0) {
+                        diff += 10;
+                        carry = 1;
+                    } else {
+                        carry = 0;
+                    }
+                    resultFrac += to_string(diff);
+                }
+                reverse(resultFrac.begin(), resultFrac.end());
+                if (resultFrac.empty())
+                    result = resultInt;
+                else
+                    result = resultInt + '.' + resultFrac;
+                cout << sign;
+                cout<< result;
+            }
+        }
     }
 
         //--------------------- negative---------------------------
@@ -548,6 +601,61 @@ string BigReal::subtract(BigReal &other)
                 result = resultInt + '.' + resultFrac;
             cout << sign;
             cout<< result;
+        }
+        else if(integer==other.integer&&fraction==other.fraction){
+            resultInt='0';
+            resultFrac='0';
+            result = resultInt + '.' + resultFrac;
+            cout<< result;
+        }
+        else if(integer==other.integer&&fraction!=other.fraction){
+            if(fraction>other.fraction){
+                sign='-';
+                resultInt='0';
+                for (int i = 0; i < fraction1.length(); ++i) {
+                    int d1 = fraction1[i] - '0';
+                    int d2 = fraction2[i] - '0';
+                    int diff = d1 - d2 - carry; // <----
+                    if (diff < 0) {
+                        diff += 10;
+                        carry = 1;
+                    } else {
+                        carry = 0;
+                    }
+                    resultFrac += to_string(diff);
+                }
+                reverse(resultFrac.begin(), resultFrac.end());
+                if (resultFrac.empty())
+                    result = resultInt;
+                else
+                    result = resultInt + '.' + resultFrac;
+                cout << sign;
+                cout<< result;
+
+            }
+            else if(fraction<other.fraction){
+                sign='+';
+                resultInt='0';
+                for (int i = 0; i < fraction1.length(); ++i) {
+                    int d1 = fraction1[i] - '0';
+                    int d2 = fraction2[i] - '0';
+                    int diff = d2 - d1 - carry; // <----
+                    if (diff < 0) {
+                        diff += 10;
+                        carry = 1;
+                    } else {
+                        carry = 0;
+                    }
+                    resultFrac += to_string(diff);
+                }
+                reverse(resultFrac.begin(), resultFrac.end());
+                if (resultFrac.empty())
+                    result = resultInt;
+                else
+                    result = resultInt + '.' + resultFrac;
+                cout << sign;
+                cout<< result;
+            }
         }
     }
         //---------------------(-,+)
