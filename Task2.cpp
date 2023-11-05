@@ -240,7 +240,7 @@ void BigReal::add(BigReal& other){
         addsub = false;
         if(sign=='+'&&other.sign=='-' &&integer!=other.integer){
             other.sign='+';
-            subtract(other);
+            // subtract(other);
         }
         else if(sign=='-'&&other.sign=='+'  &&integer!=other.integer){
             other.sign='-';
@@ -494,6 +494,7 @@ string BigReal::subtract(BigReal &other)
 
             }
             else if(fraction<other.fraction){
+                sign='-';
                 resultInt='0';
                 for (int i = 0; i < fraction1.length(); ++i) {
                     int d1 = fraction1[i] - '0';
