@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-#include "oopA2T2.h"
+#include  "The_BigReal.h"
 BigReal::BigReal() {
     integer='0';
     fraction='0';
@@ -227,9 +227,41 @@ bool BigReal::operator>(BigReal oo2) {
 
 //---------------------------------------------------------------------
 void BigReal::add(BigReal& other){
+    string thisInt = integer;
+    string fraction1 = fraction;
+    string integer2 = other.integer;
+    string fraction2 = other.fraction;
+    int thisIntLength = thisInt.length();
+    int integer2Length = integer2.length();
+    while (thisIntLength < integer2Length) {
+        thisInt = "0" + thisInt;   //padding
+        integer="0"+integer;
+        thisIntLength++;
+        intSize++;
+    }
+    while (integer2Length < thisIntLength) {
+        integer2 = "0" + integer2;
+        other.integer="0"+other.integer;
+        integer2Length++;
+
+    }
+    int fraction1Length = fraction1.length();
+    int fraction2Length = fraction2.length();
+    while (fraction1Length < fraction2Length) {
+        fraction+="0";
+        fraction1 += "0";
+        fraction1Length++;
+        fractionSize++;
+    }
+    while (fraction2Length < fraction1Length) {
+        other.fraction+="0";
+        fraction2 += "0";
+        fraction2Length++;
+    }
     string result = "";
     char result_sign;
     int carry = 0;
+
     if(sign == '+' && other.sign == '+'){
         result_sign = '+';
     }
@@ -256,20 +288,20 @@ void BigReal::add(BigReal& other){
     if(addsub){
         // Firstly we need to make the number of digits equal in both a and b
         // padding with zero's
-        if(fraction.size() != other.fraction.size()){
-            if(fraction.size() > other.fraction.size()){
-                int dif = fraction.size() - other.fraction.size();
-                while(dif--){
-                    other.fraction = other.fraction +  "0";
-                }
-            }
-            else{
-                int dif = other.fraction.size() - fraction.size();
-                while(dif--){
-                    fraction = fraction + "0";
-                }
-            }
-        }
+//        if(fraction.size() != other.fraction.size()){
+//            if(fraction.size() > other.fraction.size()){
+//                int dif = fraction.size() - other.fraction.size();
+//                while(dif--){
+//                    other.fraction = other.fraction +  "0";
+//                }
+//            }
+//            else{
+//                int dif = other.fraction.size() - fraction.size();
+//                while(dif--){
+//                    fraction = fraction + "0";
+//                }
+//            }
+//        }
 
         // Adding the fraction , integer parts
         // Adding the fraction part
