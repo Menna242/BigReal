@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
-#include "The_BigReal.h"
+#include "oopA2T2.h"
 BigReal::BigReal() {
     integer='0';
     fraction='0';
     sign='+';
     intSize=0;
     fractionSize=0;
-    addsub = true;
+     addsub = true;
 }
 // the is invalid function  is in the constructor that if the number is not in form ("[+-]?\\d*.?\\d+") or
 // is not in form ("[+-]?\\d+")that the number is invalid otherwise the number is valid
@@ -309,7 +309,7 @@ void BigReal::add(BigReal& other){
         if (carry > 0) {
             result = to_string(carry) + result;
         }
-        
+
 
 
         // Printing result of adding
@@ -327,7 +327,7 @@ void BigReal::add(BigReal& other){
         cout << endl;
 
     }
-    }
+}
 
 
 //-----------------------------------------------------------------------------------
@@ -348,7 +348,7 @@ string BigReal::subtract(BigReal &other)
     int thisIntLength = thisInt.length();
     int integer2Length = integer2.length();
     while (thisIntLength < integer2Length) {
-        thisInt = "0" + thisInt;
+        thisInt = "0" + thisInt;   //padding
         integer="0"+integer;
         thisIntLength++;
         intSize++;
@@ -548,6 +548,7 @@ string BigReal::subtract(BigReal &other)
     }
         //---------------------(-,+)
     else if(sign=='+'&&other.sign=='-'){
+        other.sign='+';
         add(other);
     }
     else if(sign=='-'&&other.sign=='+'){
@@ -562,5 +563,4 @@ void print_num(BigReal x){
     cout <<"the integer is:" <<x.integer << " , the fraction is:"<< x.fraction <<" ";
     cout<<"\n";
 }
-
 
