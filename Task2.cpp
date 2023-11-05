@@ -279,9 +279,23 @@ void BigReal::add(BigReal& other){
             subtract(other);
 
         }
-        else if((sign=='-'&& other.sign=='+'  &&integer==other.integer) || ((sign=='+'&&other.sign=='-'  && integer==other.integer)) ) {
+        else if((sign=='-'&& other.sign=='+'  &&integer==other.integer&&fraction==other.fraction) || ((sign=='+'&&other.sign=='-'  && integer==other.integer&&fraction==other.fraction)) ) {
             result+="0.0";
             cout<<result<<endl;
+        }
+        else if (sign=='-'&& other.sign=='+'  &&integer==other.integer&&fraction!=other.fraction){
+            integer='0';
+            other.integer='0';
+            other.sign='-';
+            subtract(other);
+
+        }
+        else if (sign=='+'&& other.sign=='-'  &&integer==other.integer&&fraction!=other.fraction){
+            integer='0';
+            other.integer='0';
+            other.sign='+';
+            subtract(other);
+
         }
 
     }
