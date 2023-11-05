@@ -1,9 +1,9 @@
 class BigReal {
 private:
-    string BigNumber,integer,fractio, num;
+    string BigNumber,integer,fraction;
     long long intSize,fractionSize ;
     char sign;
-    bool firstZero, addsub;
+    bool firstZero ,addsub;
 public:
     BigReal();
     BigReal(string real);
@@ -18,9 +18,8 @@ public:
     void add(BigReal& other);
     string subtract(BigReal& other);
 
-     int Size();
+    int Size();
     friend void print_num(BigReal p);
 
 };
-
 
