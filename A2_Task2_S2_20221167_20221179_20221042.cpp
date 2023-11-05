@@ -42,8 +42,8 @@ int main()
 
     int enter;
     cout<<"if you want to compare the integers enter 1:\n"
-        <<"if you want to compare the integers enter 2:\n"
-        <<"if you want to compare the integers enter 3:\n";
+        <<"if you want to add the integers enter 2:\n"
+        <<"if you want to subtract the integers enter 3:\n";
     while ( cin>>enter&&enter>=1){
 
         if(enter==1){
@@ -64,8 +64,8 @@ int main()
            oo.subtract(oo2);
         }
         cout<<"if you want to compare the integers enter 1:\n"
-            <<"if you want to compare the integers enter 2:\n"
-            <<"if you want to compare the integers enter 3:\n";
+            <<"if you want to add the integers enter 2:\n"
+            <<"if you want to subtract the integers enter 3:\n";
 
 
     }
