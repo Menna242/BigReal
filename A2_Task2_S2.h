@@ -1,6 +1,6 @@
 class BigReal {
 private:
-    string BigNumber,integer,fraction;
+    string BigNumber,integer,fractio, num;
     long long intSize,fractionSize ;
     char sign;
     bool firstZero, addsub;
