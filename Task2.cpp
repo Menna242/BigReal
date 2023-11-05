@@ -247,7 +247,7 @@ void BigReal::add(BigReal& other){
             subtract(other);
 
         }
-        else{
+        else if((sign=='-'&& other.sign=='+'  &&integer==other.integer) || ((sign=='+'&&other.sign=='-'  && integer==other.integer)) ) {
             result+="0.0";
             cout<<result<<endl;
         }
@@ -567,11 +567,3 @@ void print_num(BigReal x){
     cout <<"the integer is:" <<x.integer << " , the fraction is:"<< x.fraction <<" ";
     cout<<"\n";
 }
-
-   
-    
-           
-    
-
-           
- 
