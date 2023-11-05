@@ -238,14 +238,18 @@ void BigReal::add(BigReal& other){
     }
     else{
         addsub = false;
-        if(sign=='+'&&other.sign=='-'){
+        if(sign=='+'&&other.sign=='-' &&integer!=other.integer){
             other.sign='+';
             subtract(other);
         }
-        else if(sign=='-'&&other.sign=='+'){
+        else if(sign=='-'&&other.sign=='+'  &&integer!=other.integer){
             other.sign='-';
             subtract(other);
 
+        }
+        else{
+            result+="0.0";
+            cout<<result<<endl;
         }
 
     }
