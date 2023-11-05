@@ -268,11 +268,16 @@ void BigReal::add(BigReal& other){
     else if(sign == '-' && other.sign == '-'){
         result_sign = '-';
     }
+//    else if(sign == '+' && other.sign == '-' &&integer==other.integer){
+//        sign='+';
+//        subtract(other);
+//
+//    }
     else{
         addsub = false;
         if(sign=='+'&&other.sign=='-' &&integer!=other.integer){
             other.sign='+';
-            // subtract(other);
+             subtract(other);
         }
         else if(sign=='-'&&other.sign=='+'  &&integer!=other.integer){
             other.sign='-';
