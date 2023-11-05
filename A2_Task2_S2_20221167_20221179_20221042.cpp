@@ -8,51 +8,68 @@
 // Author3 and ID : Touka Atef El-Sayed Abu-ElAzm    (20221042)
 // Teaching Assistant: Eng\ Khaled
 
-
 # include <bits/stdc++.h>
 using namespace std;
-#include "A2_Task2_S2.h"
+#include "The_BigReal.h"
 
 int main()
 {
     cout<<"Enter the BigNumber:";
     string s;
-    getline(cin,s);
+    getline(cin,s);  //55555.666825
     BigReal o1;
     BigReal oo(s);
-    oo.printf();
+    print_num(oo);
 
     cout<<"Enter the BigNumber:";
     string ss;
-    getline(cin,ss);
+    getline(cin,ss);   //999999.8648
     BigReal oo2(ss);
-    oo2.printf();
+    print_num(oo2);
 
-    char enter;
-    cout<<"if you want to compare the integers enter c:\n"
-        <<"if you want to add the integers enter d:\n"
-        <<"if you want to subtract the integers enter s:\n";
-    cin>>enter;
-    if(enter=='c'){
-        if(oo.operator==(oo2)==1) {
-            cout<<"the integer in ob1==the integer ob2 &&the fraction in ob1==the fraction ob2";
+
+    BigReal oo3=oo2;
+    cout<<"By operator equal:";
+    print_num(oo3);
+
+
+
+    BigReal oo4(oo);
+    cout<<"By copy constractor:";
+    print_num(oo4);
+
+
+
+    int enter;
+    cout<<"if you want to compare the integers enter 1:\n"
+        <<"if you want to compare the integers enter 2:\n"
+        <<"if you want to compare the integers enter 3:\n";
+    while ( cin>>enter&&enter>=1){
+
+        if(enter==1){
+            if(oo.operator==(oo2)==1) {
+                cout<<"the integer in ob1==the integer ob2 &&the fraction in ob1==the fraction ob2\n";
+            }
+            else if(oo.operator<(oo2)==1){
+                cout<<"The big number 1 < the big number 2\n";
+            }
+            else if (oo.operator>(oo2)==1){
+                cout<<"The big number 1 > the big number 2\n";
+            }
         }
-        else if(oo.operator<(oo2)==1){
-            cout<<"The big number 1 < the big number 2";
+        else if (enter==2){
+            oo.add(oo2);
         }
-        else if (oo.operator>(oo2)==1){
-            cout<<"The big number 1 > the big number 2";
+        else if(enter==3){
+           oo.subtract(oo2);
         }
-    }
-    else if (enter=='d'){
-        oo.addition(oo2);
-    }
-    else if(enter=='s'){
-        string difference = oo.subtract(oo2);
-        cout << "Difference: " << difference << endl;
+        cout<<"if you want to compare the integers enter 1:\n"
+            <<"if you want to compare the integers enter 2:\n"
+            <<"if you want to compare the integers enter 3:\n";
+
 
     }
+
+
 
 }
-
-
