@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-#include "The_BigReal.h"
+#include "oopA2T2.h"
 BigReal::BigReal() {
     integer='0';
     fraction='0';
@@ -8,7 +8,6 @@ BigReal::BigReal() {
     intSize=0;
     fractionSize=0;
     addsub = true;
-    num = "";
 }
 // the is invalid function  is in the constructor that if the number is not in form ("[+-]?\\d*.?\\d+") or
 // is not in form ("[+-]?\\d+")that the number is invalid otherwise the number is valid
@@ -28,27 +27,20 @@ BigReal::BigReal(string real) {
         if(real[0]=='+'){  //+11
             sign='+';
             real[0]='0';
-            for(int i =1; i < real.size(); i++){
-                num += real[i];
-            }
-            integer=num;
+            integer=real;
             fraction="0";
         }
 
         else if(real[0]=='-'){  //-11.11
             sign='-';
             real[0]='0';
-            for(int i =1; i < real.size(); i++){
-                num += real[i];
-            }
-            integer=num;
+            integer=real;
             fraction="0";
         }
 
         else{      //11.11
             sign='+';
-            num = real;
-            integer=num;
+            integer=real;
             fraction="0";
         }
     }
@@ -56,37 +48,31 @@ BigReal::BigReal(string real) {
         if(real[0]=='+'){  //+11.11
             sign='+';
             real[0]='0';
-            for(int i =1; i < real.size(); i++){
-                num += real[i];
-            }
-            integer=num.substr(0,real.find('.'));
-            fraction=num.substr(integer.size()+1,real.size()-1);
+            integer=real.substr(0,real.find('.'));
+            fraction=real.substr(integer.size()+1,real.size()-1);
         }
 
         else if(real[0]=='-'){  //-11.11
             sign='-';
             real[0]='0';
-            for(int i =1; i < real.size(); i++){
-                num += real[i];
-            }
-            integer=num.substr(0,real.find('.'));
-            fraction=num.substr(integer.size()+1,real.size()-1);
+            integer=real.substr(0,real.find('.'));
+            fraction=real.substr(integer.size()+1,real.size()-1);
 
 
         }
         else{      //11.11
             sign='+';
-            num = real;
             if(real[0]=='.'){
                 integer="0";
-                fraction=num.substr(integer.size(),real.size()-1);
+                fraction=real.substr(integer.size(),real.size()-1);
 
             }
             else{
-                num = real;
-                integer=num.substr(0,real.find('.'));
-                fraction=num.substr(integer.size()+1,real.size()-1);
+                integer=real.substr(0,real.find('.'));
+                fraction=real.substr(integer.size()+1,real.size()-1);
             }
+
+
         }
     }
 
@@ -252,11 +238,11 @@ void BigReal::add(BigReal& other){
     }
     else{
         addsub = false;
-        if(sign=='+'&&other.sign=='-' && integer!=other.integer){
+        if(sign=='+'&&other.sign=='-' &&integer!=other.integer){
             other.sign='+';
             subtract(other);
         }
-        else if(sign=='-'&&other.sign=='+' && integer!=other.integer){
+        else if(sign=='-'&&other.sign=='+'  &&integer!=other.integer){
             other.sign='-';
             subtract(other);
 
@@ -366,7 +352,7 @@ string BigReal::subtract(BigReal &other)
     int thisIntLength = thisInt.length();
     int integer2Length = integer2.length();
     while (thisIntLength < integer2Length) {
-        thisInt = "0" + thisInt;
+        thisInt = "0" + thisInt;   //padding
         integer="0"+integer;
         thisIntLength++;
         intSize++;
@@ -566,7 +552,7 @@ string BigReal::subtract(BigReal &other)
     }
         //---------------------(-,+)
     else if(sign=='+'&&other.sign=='-'){
-        other.sign = '+';
+        other.sign='+';
         add(other);
     }
     else if(sign=='-'&&other.sign=='+'){
@@ -582,4 +568,10 @@ void print_num(BigReal x){
     cout<<"\n";
 }
 
+   
+    
+           
+    
 
+           
+ 
