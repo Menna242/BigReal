@@ -3,7 +3,7 @@ private:
     string BigNumber,integer,fraction;
     long long intSize,fractionSize ;
     char sign;
-    bool firstZero;
+    bool firstZero, addsub;
 public:
     BigReal();
     BigReal(string real);
