@@ -1,24 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
-#include "A2_Task2_S2.h"
-
+#include "The_BigReal.h"
 BigReal::BigReal() {
     integer='0';
     fraction='0';
     sign='+';
     intSize=0;
     fractionSize=0;
-    firstZero = false;
-    addsub = true;
 }
+// the is invalid function  is in the constructor that if the number is not in form ("[+-]?\\d*.?\\d+") or
+// is not in form ("[+-]?\\d+")that the number is invalid otherwise the number is valid
 BigReal::BigReal(string real) {
-    firstZero = false;
-    addsub = true;
     if(real[0]=='+'||real[0]=='-') {
         for (int i = 1; i < real.size(); ++i) {
             if(!isdigit(real[i])&&real[i]!='.'){
                 real[i]='0';
-                firstZero = true;
             }
             else{
                 break;
@@ -29,7 +25,6 @@ BigReal::BigReal(string real) {
         if(real[0]=='+'){  //+11
             sign='+';
             real[0]='0';
-            firstZero = true;
             integer=real;
             fraction="0";
         }
@@ -37,7 +32,6 @@ BigReal::BigReal(string real) {
         else if(real[0]=='-'){  //-11.11
             sign='-';
             real[0]='0';
-            firstZero = true;
             integer=real;
             fraction="0";
         }
@@ -52,7 +46,6 @@ BigReal::BigReal(string real) {
         if(real[0]=='+'){  //+11.11
             sign='+';
             real[0]='0';
-            firstZero = true;
             integer=real.substr(0,real.find('.'));
             fraction=real.substr(integer.size()+1,real.size()-1);
         }
@@ -60,9 +53,10 @@ BigReal::BigReal(string real) {
         else if(real[0]=='-'){  //-11.11
             sign='-';
             real[0]='0';
-            firstZero = true;
             integer=real.substr(0,real.find('.'));
             fraction=real.substr(integer.size()+1,real.size()-1);
+
+
         }
         else{      //11.11
             sign='+';
@@ -75,6 +69,8 @@ BigReal::BigReal(string real) {
                 integer=real.substr(0,real.find('.'));
                 fraction=real.substr(integer.size()+1,real.size()-1);
             }
+
+
         }
     }
 
@@ -85,35 +81,58 @@ BigReal::BigReal(string real) {
     }
 
     intSize=integer.size(); fractionSize=fraction.size();
+    cout<<"The integer size is:"<<intSize<<" , the fraction size is:"<<fractionSize<<"\n";
     BigNumber=sign+integer+'.'+fraction;
 }
+//------------------------------------------------------------------------------
+BigReal &BigReal::operator=(BigReal &other) {
+    sign = other.sign;
+    integer = other.integer;
+    fraction = other.fraction;
+}
 
+   // copy constructor
+BigReal::BigReal(const BigReal &other) {
+    sign = other.sign;
+    integer = other.integer;
+    fraction = other.fraction;
+}
+//---------------------------------------------------------------------------
+    // compare
+    /* first compiler check if size of integer is similar in 2 objects and check if size of fraction is similar in 2 objects
+     then if integer object1==integer object2 and if fraction object1==fraction object2 and the sign in
+     object1==sign in equal 2--> the 2 objects are equal */
 bool BigReal::operator==(BigReal oo2) {
     if(intSize!=oo2.intSize||fractionSize!=oo2.fractionSize){
         if(intSize!=oo2.intSize){
             if(oo2.intSize<intSize){
                 for (int i = 0; i < intSize-oo2.intSize; ++i) {
                     oo2.integer="0"+oo2.integer;
+                    oo2.intSize++;
                 }
 
             }
             else if(oo2.intSize>intSize){
                 for (int i = 0; i < oo2.intSize-intSize; ++i) {
                     integer="0"+integer;
+                    intSize++;
                 }
             }
-            oo2.intSize=intSize;
+            intSize=oo2.intSize;
+
         }
 
         if(fractionSize!=oo2.fractionSize){
             if(fractionSize>oo2.fractionSize){
                 for (int i = 0; i < fractionSize-oo2.fractionSize; ++i) {
                     oo2.fraction=oo2.fraction+"0";
+                    oo2.fractionSize++;
                 }
             }
             else if (fractionSize<oo2.fractionSize) {
                 for (int i = 0; i < oo2.fractionSize - fractionSize; ++i) {
                     fraction = fraction + "0";
+                    fractionSize++;
                 }
             }
             oo2.fractionSize=fractionSize;
@@ -139,6 +158,12 @@ bool BigReal::operator==(BigReal oo2) {
 
 }
 
+/*  operator <
+  then if integer object1<integer object2 or if fraction object1<fraction object2 and the sign in
+  object1==sign in object2 =='+'--> the object2 is greater
+  if the sign in object1==sign in object2 =='-'and integer object1>integer object2 or if fraction object1>fraction object2
+  --> the object2 is greater
+  if the sign in object2 is'+' --> the object2 is greater*/
 bool BigReal::operator<(BigReal oo2) {
     if(sign==oo2.sign&&sign=='+'){
         if(integer<oo2.integer||fraction<oo2.fraction){
@@ -165,7 +190,12 @@ bool BigReal::operator<(BigReal oo2) {
     }
 
 }
-
+/*   operator >
+  then if integer object1>integer object2 or if fraction object1>fraction object2 and the sign in
+  object1==sign in object2 =='+'--> the object1 is greater
+  if the sign in object1==sign in object2 =='-'and integer object1<integer object2 or if fraction object1<fraction object2
+  --> the object1 is greater
+  if the sign in object1 is'+' --> the object1 is greater*/
 bool BigReal::operator>(BigReal oo2) {
     if(sign==oo2.sign&&sign=='+'){
         if(integer>oo2.integer||fraction>oo2.fraction){
@@ -191,8 +221,10 @@ bool BigReal::operator>(BigReal oo2) {
         return true;
     }
 }
+
+
 //---------------------------------------------------------------------
-void BigReal::addition(BigReal &other) {
+void BigReal::add(BigReal& other){
     string result = "";
     char result_sign;
     int carry = 0;
@@ -203,8 +235,16 @@ void BigReal::addition(BigReal &other) {
         result_sign = '-';
     }
     else{
-        // Subtraction
-        addsub = false;
+        if(sign=='+'&&other.sign=='-'){
+          other.sign='+';
+          subtract(other);
+        }
+        else if(sign=='-'&&other.sign=='+'){
+            other.sign='-';
+            subtract(other);
+
+        }
+
     }
 
     // Firstly we need to make the number of digits equal in both a and b
@@ -224,235 +264,303 @@ void BigReal::addition(BigReal &other) {
         }
     }
 
-    if(addsub){
-        // Adding the fraction , integer parts
-        // Adding the fraction part
-        int fractionSize_a = fraction.size();
-        int fractionSize_b = other.fraction.size();
-        int i = fractionSize_a - 1;
-        int j = fractionSize_b - 1;
+    // Adding the fraction , integer parts
+    // Adding the fraction part
+    int fractionSize_a = fraction.size();
+    int fractionSize_b = other.fraction.size();
+    int i = fractionSize_a - 1;
+    int j = fractionSize_b - 1;
 
-        int sum;
-        while (i >= 0 || j >= 0) {
-            sum = carry;
-            if (i >= 0)
-                sum += (fraction[i] - '0');
-            if (j >= 0)
-                sum += (other.fraction[j] - '0');
-            carry = sum / 10;
-            sum %= 10;
-            result = to_string(sum) + result;
-            i--; j--;
-        }
-        int decimalPosition;
-        decimalPosition = result.size();
-
-        // Adding the integer part
-        int integerSize_a = integer.size();
-        int integerSize_b = other.integer.size();
-        i = integerSize_a - 1;
-        j = integerSize_b - 1;
-        while (i >= 0 || j >= 0) {
-            sum = carry;
-            if (i >= 0)
-                sum += (integer[i] - '0');
-            if (j >= 0)
-                sum += (other.integer[j] - '0');
-            carry = sum / 10;
-            sum %= 10; // It gives the current digit of result
-            result = to_string(sum) + result;
-            i--; j--;
-        }
-
-        if (carry > 0) {
-            result = to_string(carry) + result;
-        }
-
-
-        // Printing result of adding
-        cout << "Result: ";
-        cout << result_sign;
-        if(firstZero){
-            for(int i = 1; i < (result.size()-decimalPosition); i++){
-                cout << result[i];
-            }
-            cout << ".";
-            for(int i = (result.size() - decimalPosition); i < result.size() ; i++){
-                cout << result[i];
-            }
-        }
-        else{
-            for(int i = 0; i < (result.size()-decimalPosition); i++){
-                cout << result[i];
-            }
-            cout << ".";
-            for(int i = (result.size() - decimalPosition); i < result.size() ; i++){
-                cout << result[i];
-            }
-        }
-
-    }
-}
-
-
-
-//-----------------------------------------------------------------------------------
-/*void BigReal::Subtraction(const string& number) {
-    // Extract sign, integer part, and fraction part from the input string
-    if (number[0] == '-') {
-        positive = false;
-        integer = number.substr(1);      //Start  from the index 1 to the end of the string
-    } else {
-        positive = true;
-        integer = number;
-    }
-
-    size_t decimalPos = integer.find('.');
-    if (decimalPos != string::npos) {     //decimalPos is not equal to the greatest value of size_t
-        fraction = integer.substr(decimalPos + 1);
-        integer = integer.substr(0, decimalPos);
-    } else {
-        fraction = "";
-    }
-}
-*/
-string  BigReal:: subtract(const  BigReal& other) const{
-
-    /*if (other[0] == '-') {
-        positive = false;
-    }else{
-        positive = true;
-    }*/
-    int positive=0;
-    if(sign=='+')
-        positive = 0;
-    else
-        positive = 1;
-
-    // Pad the fraction parts with zeros to ensure equal length
-    string paddedFrac1 = fraction;
-    string paddedFrac2 = other.fraction;
-    while (paddedFrac1.length() < paddedFrac2.length())
-        paddedFrac1 += '0';
-    while (paddedFrac2.length() < paddedFrac1.length())
-        paddedFrac2 += '0';
-
-    // Compute the 9's complement of the fraction part of the second number
-    string complementedFrac2;
-    for (char c : paddedFrac2)
-        complementedFrac2 += '9' - (c - '0');
-
-    // Add 1 to the 9's complement of the fraction part to get the final complement
-    string finalComplement = addOne(complementedFrac2);
-
-    // Subtract the fraction parts using the complement method
-    string fractionResult = add(paddedFrac1, finalComplement);
-    size_t nonZeroPos = fractionResult.find_first_not_of('0');
-    if (nonZeroPos != string::npos)
-        fractionResult = fractionResult.substr(nonZeroPos);
-    else
-        fractionResult = "";
-
-
-    if (!fractionResult.empty()&&fractionResult[0]=='1')
-        fractionResult = fractionResult.substr( 1);
-
-    // Subtract the integer parts
-    string integerResult = subtractNum(integer, other.integer);
-
-    // Remove leading zeros from the integer result
-    size_t nonZeroPos2 = integerResult.find_first_not_of('0');
-    if (nonZeroPos2 != string::npos)
-        integerResult = integerResult.substr(nonZeroPos2);
-    else
-        integerResult = "0";
-
-
-
-    // Combine the integer and fraction parts to get the final result
-    string result = integerResult;
-    if (!fractionResult.empty())
-        result += '.' + fractionResult;
-
-    // Add the sign if necessary
-    if (positive=0)
-        result = '-' + result;
-
-    return result;
-}
-
-
-string  BigReal:: add(const string& num1, const string& num2) const {
-    string result;
-    int carry = 0;
-    int i = num1.length() - 1;
-    int j = num2.length() - 1;
-
-    while (i >= 0 || j >= 0 || carry > 0) {
-        int digit1 = (i >= 0) ? (num1[i] - '0') : 0;
-        int digit2 = (j >= 0) ? (num2[j] - '0') : 0;
-        int sum = digit1 + digit2 + carry;
-        carry = sum / 10;    //if was no carry it will be a decimal num so carry =0
-        sum %= 10;
-        result = to_string(sum) + result;
-        i--;
-        j--;
-    }
-
-    return result;
-}
-
-string BigReal::subtractNum(const string& num1, const string& num2) const {
-    string result;
-    int borrow = 0;
-    int i = num1.length() - 1;
-    int j = num2.length() - 1;
-
+    int sum;
     while (i >= 0 || j >= 0) {
-        int digit1 = (i >= 0) ? (num1[i] - '0') : 0;
-        int digit2 = (j >= 0) ? (num2[j] - '0') : 0;
-        int diff = digit1 - digit2 - borrow;
-
-        if (diff < 0) {
-            diff += 10;
-            borrow = 1;
-        } else {
-            borrow = 0;
-        }
-
-        result = to_string(diff) + result;
-        i--;
-        j--;
-    }
-
-    return result;
-}
-
-string BigReal::addOne(const string& num) const {
-    string result = num;                   // 20 -13 --->   20 + 86(9's complement)= 106 ---> add 1 and remove the last one
-    int i = num.length() - 1;              //=07
-    int carry = 1;
-    while (i >= 0 && carry > 0) {
-        int digit = num[i] - '0';
-        int sum = digit + carry;
+        sum = carry;
+        if (i >= 0)
+            sum += (fraction[i] - '0');
+        if (j >= 0)
+            sum += (other.fraction[j] - '0');
         carry = sum / 10;
         sum %= 10;
-        result[i] = sum + '0';
-        i--;
+        result = to_string(sum) + result;
+        i--; j--;
+    }
+    int decimalPosition;
+    decimalPosition = result.size();
+
+    // Adding the integer part
+    int integerSize_a = integer.size();
+    int integerSize_b = other.integer.size();
+    i = integerSize_a - 1;
+    j = integerSize_b - 1;
+    while (i >= 0 || j >= 0) {
+        sum = carry;
+        if (i >= 0)
+            sum += (integer[i] - '0');
+        if (j >= 0)
+            sum += (other.integer[j] - '0');
+        carry = sum / 10;
+        sum %= 10; // It gives the current digit of result
+        result = to_string(sum) + result;
+        i--; j--;
     }
 
-    if (carry > 0)             //if still was a carry
-        result = '1' + result;
+    if (carry > 0) {
+        result = to_string(carry) + result;
+    }
 
-    return result;
+
+    // Printing result of adding
+    cout << "Result: ";
+    cout << result_sign;
+    if(firstZero){
+        for(int i = 1; i < (result.size()-decimalPosition); i++){
+            cout << result[i];
+        }
+        cout << ".";
+        for(int i = (result.size() - decimalPosition); i < result.size() ; i++){
+            cout << result[i];
+        }
+    }
+    else{
+        for(int i = 0; i < (result.size()-decimalPosition); i++){
+            cout << result[i];
+        }
+        cout << ".";
+        for(int i = (result.size() - decimalPosition); i < result.size() ; i++){
+            cout << result[i];
+        }
+    }
+
 }
+//-----------------------------------------------------------------------------------
+/*
+  We will subtract digit by digit but in the beginning we will make reverse to the integer ,fraction and
+  the other.integer and the other.fraction because we want to make for loop from the end of the string to the
+  right but the reverse is easier.
+  Then we will check the sign and if integer>other.integer or the opposite ,so all this will control if
+  we will subtract the digit1 of the integer from the digit 2 of the other.integer  or opposite
+  and the difference will subtract from carry and if the number <0 we will add 10 on it;
+*/
+string BigReal::subtract(BigReal &other)
+{
+    string thisInt = integer;
+    string fraction1 = fraction;
+    string integer2 = other.integer;
+    string fraction2 = other.fraction;
+    int thisIntLength = thisInt.length();
+    int integer2Length = integer2.length();
+    while (thisIntLength < integer2Length) {
+        thisInt = "0" + thisInt;
+        integer="0"+integer;
+        thisIntLength++;
+        intSize++;
+    }
+    while (integer2Length < thisIntLength) {
+        integer2 = "0" + integer2;
+       other.integer="0"+other.integer;
+        integer2Length++;
 
+    }
+    int fraction1Length = fraction1.length();
+    int fraction2Length = fraction2.length();
+    while (fraction1Length < fraction2Length) {
+        fraction+="0";
+        fraction1 += "0";
+        fraction1Length++;
+        fractionSize++;
+    }
+    while (fraction2Length < fraction1Length) {
+       other.fraction+="0";
+        fraction2 += "0";
+        fraction2Length++;
+    }
+    reverse(thisInt.begin(), thisInt.end());
+    reverse(integer2.begin(), integer2.end());
+    reverse(fraction1.begin(), fraction1.end());
+    reverse(fraction2.begin(), fraction2.end());
+    string resultInt;
+    string resultFrac;
+    string result;
+    int carry = 0;
+    //-------------------------------------------------------------------
+    if(sign==other.sign&&sign=='+'){
+        if(integer>other.integer){
+            for (int i = 0; i < fraction1.length(); ++i) {
+                int d1 = fraction1[i] - '0';
+                int d2 = fraction2[i] - '0';
+                int diff = d1 - d2 - carry; // <----
+                if (diff < 0) {
+                    diff += 10;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+                resultFrac += to_string(diff);
+            }
 
+            for (int i = 0; i < thisInt.length(); ++i) {
+                int d1 = (thisInt[i] - '0');
+                int d2 = integer2[i] - '0';
 
-void BigReal::printf() {
-    cout << BigNumber << "-->";
-    cout << integer << " " << fraction << " ";
-    cout << "\n";
+                int diff = d1 - d2-carry ; //  <-----
+                if (diff < 0) {
+                    diff += 10;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+                resultInt += to_string(diff);
+            }
+            reverse(resultInt.begin(), resultInt.end());
+            reverse(resultFrac.begin(), resultFrac.end());
+            if (resultFrac.empty())
+                result = resultInt;
+            else
+                result = resultInt + '.' + resultFrac;
+            cout << sign;
+            cout<< result;
+        }
+
+        //------------------------------------
+
+        else if(integer<other.integer){
+            sign='-';
+            for (int i = 0; i < fraction1.length(); ++i) {
+                int d1 = fraction1[i] - '0';
+                int d2 = fraction2[i] - '0';
+                int diff = d2 - d1 - carry;  //  <-----
+                if (diff < 0) {
+                    diff += 10;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+                resultFrac += to_string(diff);
+            }
+
+            for (int i = 0; i < thisInt.length(); ++i) {
+                int d1 = (thisInt[i] - '0');
+                int d2 = integer2[i] - '0';
+
+                int diff = d2 - d1-carry ;   //  <-----
+                if (diff < 0) {
+                    diff += 10;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+                resultInt += to_string(diff);
+            }
+            reverse(resultInt.begin(), resultInt.end());
+            reverse(resultFrac.begin(), resultFrac.end());
+            if (resultFrac.empty())
+                result = resultInt;
+            else
+                result = resultInt + '.' + resultFrac;
+            cout << sign;
+            cout<< result;
+
+        }
+    }
+
+    //--------------------- negative---------------------------
+
+    else if(sign==other.sign&&sign=='-'){
+        if(integer>other.integer){
+            sign='-';
+            for (int i = 0; i < fraction1.length(); ++i) {
+                int digit1 = fraction1[i] - '0';
+                int digit2 = fraction2[i] - '0';
+                int diff = digit1 - digit2 - carry;  //  <-----
+                if (diff < 0) {
+                    diff += 10;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+//                diff=10-diff;
+                resultFrac += to_string(diff);
+            }
+
+            for (int i = 0; i < thisInt.length(); ++i) {
+                int digit1 = (thisInt[i] - '0');
+                int digit2 = integer2[i] - '0';
+
+                int diff = digit1 - digit2-carry ;
+                if (diff < 0) {
+                    diff += 10;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+//                diff=10-diff;
+                resultInt += to_string(diff);
+            }
+            reverse(resultInt.begin(), resultInt.end());
+            reverse(resultFrac.begin(), resultFrac.end());
+            if (resultFrac.empty())
+                result = resultInt;
+            else
+                result = resultInt + '.' + resultFrac;
+            cout << sign;
+            cout<< result;
+        }
+
+        //-------------------------------
+
+        else if(integer<other.integer){
+            sign='+';
+            for (int i = 0; i < fraction1.length(); ++i) {
+                int digit1 = fraction1[i] - '0';
+                int digit2 = fraction2[i] - '0';
+                int diff = digit2 - digit1 - carry;
+                if (diff < 0) {
+                    diff += 10;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+//                diff=10-diff;
+                resultFrac += to_string(diff);
+            }
+
+            for (int i = 0; i < thisInt.length(); ++i) {
+                int digit1 = (thisInt[i] - '0');
+                int digit2 = integer2[i] - '0';
+
+                int diff = digit2 - digit1-carry ;
+                if (diff < 0) {
+                    diff += 10;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+//                diff=10-diff;
+                resultInt += to_string(diff);
+            }
+            reverse(resultInt.begin(), resultInt.end());
+            reverse(resultFrac.begin(), resultFrac.end());
+            if (resultFrac.empty())
+                result = resultInt;
+            else
+                result = resultInt + '.' + resultFrac;
+            cout << sign;
+            cout<< result;
+        }
+    }
+    //---------------------(-,+)
+    else if(sign=='+'&&other.sign=='-'){
+     add(other);
+    }
+    else if(sign=='-'&&other.sign=='+'){
+     other.sign='-';
+     add(other);
+    }
+
 }
-
+//----------------------------------------------------------------------------------------------
+void print_num(BigReal x){
+    cout<<x.integer<<"."<<x.fraction<<"-->";
+    cout <<"the integer is:" <<x.integer << " , the fraction is:"<< x.fraction <<" ";
+    cout<<"\n";
+}
 
